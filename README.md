@@ -1,104 +1,109 @@
-# ExplainMyDiff
+# ExplainMyIncident
 
-**ExplainMyDiff** helps developers understand what actually changed between two versions of text and which changes might matter.
+**ExplainMyIncident** helps developers quickly understand what happened during a software incident and identify the most likely cause and next step.
 
-It focuses on **signal over noise** and is designed to reduce confusion during debugging, reviews, and incident analysis.
-
----
-
-## Problem
-
-When looking at diffs, developers often face:
-- Large changes mixed with noise
-- Formatting-only differences hiding real changes
-- Uncertainty about which change could cause issues
-- Cognitive overload during reviews or incidents
-
-ExplainMyDiff exists to answer one simple question:
-
-> “What actually changed here, and what should I care about?”
+It is designed for **clarity under pressure**, not for deep diagnosis or postmortems.
 
 ---
 
-## What ExplainMyDiff Does
+## 🚩 Problem
 
-- Accepts two versions of text:
-  - **Before**
-  - **After**
-- Optional high-level context (Backend, Frontend, Config, etc.)
-- Produces a structured explanation:
-  - Summary of changes
-  - Key meaningful differences
-  - Potential risk areas (if any)
-  - First thing to verify after the change
-- Ignores formatting-only or insignificant differences
-- Admits uncertainty when no meaningful change exists
-- Never generates code or guesses intent
+During incidents:
+- Logs are noisy
+- Errors are scattered
+- Recent changes are unclear
+- People speculate and panic
+- Slack fills with partial theories
+
+The real question engineers need answered is:
+
+> “What happened, and what should we look at first?”
+
+ExplainMyIncident exists to answer that — calmly and honestly.
 
 ---
 
-## What ExplainMyDiff Does NOT Do
+## ✅ What ExplainMyIncident Does
+
+- Accepts a free-form **incident description**
+- Optionally accepts:
+  - Logs
+  - Errors
+  - Recent changes
+  - High-level context
+- Produces a structured, neutral explanation:
+  - What happened
+  - Most likely cause (single, conservative)
+  - Impact
+  - First thing to investigate
+- Admits uncertainty when information is insufficient
+- Avoids speculation, blame, or alarmist language
+
+---
+
+## ❌ What ExplainMyIncident Does NOT Do
 
 This is intentional.
 
-ExplainMyDiff does **not**:
-- Perform code reviews
-- Judge correctness
-- Suggest refactors
-- Generate or modify code
-- Parse programming languages
-- Guarantee impact
-- Replace PR reviews or human judgment
+ExplainMyIncident does **not**:
+- Perform root cause analysis (RCA)
+- Assign blame
+- Generate fixes or code
+- List multiple possible causes
+- Parse logs or stack traces
+- Replace postmortems
+- Guarantee correctness
 
-It explains **impact**, not **intent**.
+It reduces chaos — it does not conclude investigations.
 
 ---
 
-## How It Works
+## 🧠 How It Works
 
-1. Developer pastes the **Before** and **After** versions
-2. Optional context is selected
-3. Input is sent to the backend API
-4. An AI model explains the differences using strict rules
-5. The frontend renders a calm, readable explanation
+1. Developer describes the incident
+2. Optional supporting information is added
+3. Input is sent to a backend API
+4. An AI model summarizes the incident using strict rules
+5. The frontend renders a calm, structured explanation
 
 The AI output is constrained to a fixed JSON schema.
 
 ---
 
-## Output Format
+## 🧩 Output Format
 
-ExplainMyDiff always returns the following fields:
+ExplainMyIncident always returns:
 
-- **summary** – High-level explanation of what changed
-- **key_changes** – Plain-English description of important differences
-- **risk_areas** – Potential areas of concern (empty if none)
-- **what_to_check** – First thing to verify (empty if none)
+- **summary** – What happened during the incident
+- **likely_cause** – The most likely cause based on available information
+- **impact** – Who or what was affected
+- **next_step** – The first thing to investigate
 
-All values are strings. Empty strings are valid.
+All values are strings. Empty strings are valid when information is unclear.
 
 ---
 
-## Context Options
+## 🧭 Context Options
 
 Context helps bias interpretation but does not enforce assumptions.
 
 Available contexts:
 - Backend
 - Frontend
-- Config
-- API
+- Infrastructure
+- CI / Build
 - Other / Not sure
 
 Default: **Backend**
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 ### Frontend
 - Angular (standalone components)
 - Tailwind CSS
+- Single-page layout
 
 ### Backend
 - Node.js
@@ -108,15 +113,16 @@ Default: **Backend**
 
 ---
 
-##  Local Setup
+## 🚀 Local Setup
 
 ### Backend
+
 - cd Backend
 - npm install
 - npm run dev
 
 ### Frontend
-- cd Frontend/explain-my-diff-ui
+- cd Frontend/explain-my-incident-ui
 - npm install
 - ng serve
 
@@ -125,36 +131,38 @@ Default: **Backend**
 
 ## Testing
 
-Manual testing scenarios:
-- Small meaningful change
-- Large diff with noise
-- Formatting-only changes
-- Identical inputs
+### ExplainMyIncident is tested manually against realistic scenarios:
+
+- Clear incidents with logs and errors
+- Vague or partial descriptions
+- Large, noisy inputs
 - Garbage input
 - Backend unavailable
-
-Expected behavior:
+- Rapid retries
+### Expected behavior:
 - No crashes
+- Calm error handling
 - Honest uncertainty
-- No false risk alarms
 - Predictable output structure
+Automated tests are out of scope for MVP.
 
 ---
 
 ## Success Criteria
 
-ExplainMyDiff is successful if:
-- Developers quickly understand what changed
-- Noise is filtered out
-- Risk is highlighted conservatively
+ExplainMyIncident is successful if:
+- Engineers understand incidents faster
+- Panic and speculation are reduced
 - Output feels calm and trustworthy
-- The tool reduces cognitive load
+- Developers know where to investigate first
+- The tool is helpful even with incomplete information
+Success is clarity, not certainty.
 
 ---
 
 ## Philosophy
 
-ExplainMyDiff explains changes — it does not judge them.
+- ExplainMyIncident helps teams think clearly when it matters most.
 
 - Clarity beats confidence.
 - Honesty beats cleverness.
